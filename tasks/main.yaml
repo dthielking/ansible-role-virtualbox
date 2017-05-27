@@ -1,0 +1,27 @@
+---
+- name: Include OS specific variables
+  include_vars: "{{ ansible_os_family }}.yaml"
+
+- set_fact:
+    install_virtualbox_packages: "{{ __virtualbox_packages|list }}"
+  when: virtualbox_packages is not defined
+
+- set_fact:
+    install_virtualbox_packages: "{{ __virtualbox_packages|list }} + {{ virtualbox_packages|list }}"
+  when: virtualbox_packages is defined
+
+- set_fact:
+    virtualbox_guest_iso_packages: "{{ __virtualbox_guest_iso_packages }}"
+  when: virtualbox_guest_iso == True
+
+- name: Install virtualbox packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ install_virtualbox_packages }}"
+
+- name: Install virtualbox_guest_iso
+  package:
+    name: "{{ virtualbox_guest_iso_packages }}"
+    state: present
+  when: virtualbox_guest_iso == True
