@@ -1,5 +1,0 @@
----
-# Install virtualbox guest iso
-virtualbox_users: ""
-virtualbox_guest_iso: True
-

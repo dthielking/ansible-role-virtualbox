@@ -1,16 +1,19 @@
 ---
 - name: Include OS specific variables
-  include_vars: "{{ ansible_os_family }}.yaml"
+  include_vars: "{{ ansible_os_family }}.yml"
 
-- set_fact:
+- name: Set virtualbox packages fact
+  set_fact:
     install_virtualbox_packages: "{{ __virtualbox_packages|list }}"
   when: virtualbox_packages is not defined
 
-- set_fact:
+- name: Add extra packages to virtualbox packages list
+  set_fact:
     install_virtualbox_packages: "{{ __virtualbox_packages|list }} + {{ virtualbox_packages|list }}"
   when: virtualbox_packages is defined
 
-- set_fact:
+- name: Set fact to enable/disable installation of virtualbox guest iso
+  set_fact:
     virtualbox_guest_iso_packages: "{{ __virtualbox_guest_iso_packages }}"
   when: virtualbox_guest_iso == True
 
@@ -34,4 +37,4 @@
       - vboxsf
     name: "{{ item }}"
   with_items: "{{ virtualbox_users }}"
-  when virtualbox_users != ""
+  when: virtualbox_users != ""
