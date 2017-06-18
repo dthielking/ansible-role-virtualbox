@@ -1,0 +1,7 @@
+---
+# Virtualbox packages
+__virtualbox_packages:
+  - virtualbox
+
+# Virtualbox guest iso packages
+__virtualbox_guest_iso_packages: virtualbox-guest-iso
